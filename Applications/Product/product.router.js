@@ -3,7 +3,15 @@ const router = express.Router();
 
 const controller = require("./product.controller");
 
+
+router 
+    .get('/', controller.getAll)
+    .get('/:id', controller.getByID);
+
 router
-    .get('/', controller.get);
+    .post('/', controller.create)
+    .patch('/:id', controller.update)
+    .delete('/:id', controller.delete)
+    
 
 module.exports = router;
