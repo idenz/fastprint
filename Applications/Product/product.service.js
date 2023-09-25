@@ -1,4 +1,6 @@
 const ProductModel = require('../../Databases/sequelize.database').Product;
+const CategoryModel = require('../../Databases/sequelize.database').Category;
+const StatusModel = require('../../Databases/sequelize.database').Status;
 const Joi = require('joi');
 
 module.exports = {
@@ -51,7 +53,16 @@ module.exports = {
         let result;
     
         try {
-    
+          filter.include = [
+            {
+              model: CategoryModel,
+              as: "category",
+            },
+            {
+              model: StatusModel,
+              as: 'status'
+            }
+          ]
           result = await ProductModel.findAll(filter)
     
           if (!result) result = null;
