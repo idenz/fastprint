@@ -1,20 +1,20 @@
 
-const ProductService = require('./product.service');
+const CategoryService = require('./category.service');
 module.exports = {
     create: async function(req, res, next) {
 
         let response = {};
 
-        let product = await ProductService.create(req.body);
+        let category = await CategoryService.create(req.body);
 
         /** Default Response */
         response.code = 200
         response.status = "success"
-        response.items = product;
+        response.items = category;
 
-        /** Checking Error While Create Product */
-        if(!product) response = { code: 500, status: 'error', message: "Create Failed"}
-        if(product?.status === "ValidationError") response = { code: 400, status: "Validation Failed", message: product.message }
+        /** Checking Error While Create Category */
+        if(!category) response = { code: 500, status: 'error', message: "Create Failed"}
+        if(category?.status === "ValidationError") response = { code: 400, status: "Validation Failed", message: category.message }
 
         /** Response API */
         res.status(response?.code).json(response);
@@ -27,8 +27,8 @@ module.exports = {
         let limit = parseInt(req.query.limit) || 10;
         const skip = (page - 1)*limit;
 
-        let ccount = await ProductService.getTotalItem();
-        let result = await ProductService.getAll({}, skip, limit);
+        let ccount = await CategoryService.getTotalItem();
+        let result = await CategoryService.getAll({}, skip, limit);
         
         res.status(200).json({
             status: 'success',
@@ -42,7 +42,7 @@ module.exports = {
         let response = {}
 
 
-        let result = await ProductService.getById(req.params.id)
+        let result = await CategoryService.getById(req.params.id)
 
         /** Default response */
         response.code = 200
@@ -61,7 +61,7 @@ module.exports = {
 
         const filter = { where: { id: req.params.id } }
 
-        let result = await ProductService.update(filter, req.body)
+        let result = await CategoryService.update(filter, req.body)
 
         /** Default response */
         response.code = 200
@@ -78,7 +78,7 @@ module.exports = {
     delete: async function (req, res, next) {
         let response = {}
 
-        let result = await ProductService.delete({ id: req.params.id})
+        let result = await CategoryService.delete({ id: req.params.id})
 
         /** Default response */
         response.code = 200
